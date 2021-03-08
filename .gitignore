@@ -4,6 +4,7 @@
 *.csv
 *.zip
 logs*.txt
+*/logs*.txt
 logs/
 models/
 results/
@@ -11,6 +12,7 @@ text*.txt
 *.mdlobj
 corpus/
 data/
+analyzing_development/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
