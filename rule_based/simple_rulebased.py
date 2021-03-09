@@ -1,4 +1,4 @@
-import sys, re
+import sys, re, json
 import numpy as np
 np.random.seed(seed=170299)
 sys.path.append("../")
@@ -6,6 +6,7 @@ import data_handler
 from nltk.corpus import wordnet
 
 corpus = data_handler.TSVCorpus("../data/total.tsv")
+irregular_verbs = json.loads(open("../resources/english-irregular-verbs.json", "r").read())
 
 def de_negative(auxiliary):
 	if auxiliary == "shan't": return "shall" # special case
@@ -21,6 +22,9 @@ def singular_3rd_person(verb):
 	return (verb + "s")
 
 def past_verb(verb):
+	if verb in irregular_verbs:
+		return irregular_verbs[verb][0]['2'][np.random.randint(0, len(irregular_verbs[verb][0]['2']))]
+
 	if len(verb) and verb[-1] != "e": verb += "e"
 	return (verb + "d")
 
@@ -29,13 +33,25 @@ def check_yesno(content):
 	# very simple one, catch the auxiliary and assume the subject following it consists of one token only
 	# (will miss cases like "bob's door" or "alice's dress", blah)
 
-	content = re.sub(r"^([^a-z]+)?(shan't|do|does|did|is|are|was|were|will|shall|would|should|may|might|can|could|have|has|had)(n't)? (@CN@|[a-z]+)([^a-z])", r"\1whether \4 \2\3\5", content)
+	match_obj = re.search(r"^([^a-z]+)?(shan't|do|does|did|is|are|was|were|will|shall|would|should|may|might|can|could|have|has|had)(n't)? (@CN@|[a-z]+)([^a-z])(.*)$", content)
+	if match_obj is not None:
+		match_obj = match_obj.groups("")
+		content = match_obj[0] + "whether " + match_obj[3] + " " + match_obj[1] + match_obj[2] + match_obj[4] + match_obj[5]
 
-	content = re.sub(r"^([^a-z]+)?whether (@CN@|[a-z]+) do ([a-z]+)([^a-z])", r"\1whether \2 \3\4", content)
+	match_obj = re.search(r"^([^a-z]+)?whether (@CN@|[a-z]+) do ([a-z]+)([^a-z])(.*)$", content)
+	if match_obj is not None:
+		match_obj = match_obj.groups("")
+		content = match_obj[0] + "whether " + match_obj[1] + " " + match_obj[2] + match_obj[3] + match_obj[4]
 
-	content = re.sub(r"^([^a-z]+)?whether (@CN@|[a-z]+) does ([a-z]+)([^a-z])", r"\1whether \2 " + singular_3rd_person(r"\3") + r"\4", content)
+	match_obj = re.search(r"^([^a-z]+)?whether (@CN@|[a-z]+) does ([a-z]+)([^a-z])(.*)$", content)
+	if match_obj is not None:
+		match_obj = match_obj.groups("")
+		content = match_obj[0] + "whether " + match_obj[1] + " " + singular_3rd_person(match_obj[2]) + match_obj[3] + match_obj[4]
 
-	content = re.sub(r"^([^a-z]+)?whether (@CN@|[a-z]+) did ([a-z]+)([^a-z])", r"\1whether \2 " + past_verb(r"\3") + r"\4", content)
+	match_obj = re.search(r"^([^a-z]+)?whether (@CN@|[a-z]+) did ([a-z]+)([^a-z])(.*)$", content)
+	if match_obj is not None:
+		match_obj = match_obj.groups("")
+		content = match_obj[0] + "whether " + match_obj[1] + " " + past_verb(match_obj[2]) + match_obj[3] + match_obj[4]
 
 	return content
 
@@ -43,7 +59,6 @@ def check_yesno(content):
 def pov_converted(content):
 	# KNOWN ISSUE: overlapping cases of the word "her" (possessive or object?)
 	# request further context handling
-	content = check_yesno(content)
 
 	content = re.sub(r"([^a-z])(@CN@'s|their|his|her|our)([^a-z])", r"\1your\3", content)
 	content = re.sub(r"([^a-z])(@CN@|he|she|they|we)('s)([^a-z])", r"\1\2're\4", content)
@@ -56,6 +71,8 @@ def pov_converted(content):
 	content = re.sub(r"([^a-z])(i)([^a-z])", r"\1they\3", content)
 	content = re.sub(r"([^a-z])(my)([^a-z])", r"\1their\3", content)
 	content = re.sub(r"([^a-z])(me)([^a-z])", r"\1them\3", content)
+
+	content = check_yesno(content)
 
 	return content
 
