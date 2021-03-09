@@ -1,7 +1,8 @@
 from nltk.translate.bleu_score import corpus_bleu, sentence_bleu
+from sys import argv
 
 true_output_file = open("../analyzing_development/output.txt", "r")
-answer_file = open("logs.txt", "r")
+answer_file = open(argv[1], "r")
 
 true_outputs = []
 answers = []

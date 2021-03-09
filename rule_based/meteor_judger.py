@@ -1,8 +1,9 @@
 from nltk.translate.meteor_score import single_meteor_score
 import numpy as np
+from sys import argv
 
 true_output_file = open("../analyzing_development/output.txt", "r")
-answer_file = open("logs.txt", "r")
+answer_file = open(argv[1], "r")
 
 true_outputs = []
 answers = []
