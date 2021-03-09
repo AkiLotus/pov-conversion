@@ -228,19 +228,11 @@ def get_proper_response(sentence, re_index, match_obj):
 
 	return None
 
-for index in range(len(corpus.rows)):
-	sentence = str(corpus.get_row(index)["input"])
+if __name__ == "__main__":
+	for index in range(len(corpus.rows)):
+		sentence = str(corpus.get_row(index)["input"])
 
-	response = None
-
-	for re_index in range(len(rule_lists)):
-		match_obj = re.search(rule_lists[re_index], sentence)
-
-		if match_obj is not None:
-			response = get_proper_response(sentence, re_index, match_obj)
-			break
-	else:
-		sentence = re.sub(r"@SCN@", r"@CN@" ,sentence)
+		response = None
 
 		for re_index in range(len(rule_lists)):
 			match_obj = re.search(rule_lists[re_index], sentence)
@@ -249,10 +241,19 @@ for index in range(len(corpus.rows)):
 				response = get_proper_response(sentence, re_index, match_obj)
 				break
 		else:
-			conveyed_content = sentence
-			if len(conveyed_content) and conveyed_content[0] != " ": conveyed_content = " " + conveyed_content
+			sentence = re.sub(r"@SCN@", r"@CN@" ,sentence)
 
-			response = greetings[np.random.randint(0, len(greetings))] + "says that" + pov_converted(conveyed_content)
+			for re_index in range(len(rule_lists)):
+				match_obj = re.search(rule_lists[re_index], sentence)
 
-	
-	print(response)
+				if match_obj is not None:
+					response = get_proper_response(sentence, re_index, match_obj)
+					break
+			else:
+				conveyed_content = sentence
+				if len(conveyed_content) and conveyed_content[0] != " ": conveyed_content = " " + conveyed_content
+
+				response = greetings[np.random.randint(0, len(greetings))] + "says that" + pov_converted(conveyed_content)
+
+		
+		print(response)
