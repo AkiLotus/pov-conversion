@@ -107,8 +107,6 @@ def noun_chunker(pos_tags):
 
 	tags = ' '.join(["{}/{}".format(pos_tags[index][1], index) for index in range(len(pos_tags))])
 
-	rule_for_NP = r"([^A-Z|^](?:(?:CD|DT|PRP\$)/\d+ )*(?:(?:RBS?R?/\d+ )*JJS?R?/\d+ )*(?:(?:NNP?S?|FW|CD|SYM|POS)/\d+ )*(?:(?:NNP?S?|FW|CD|SYM)/\d+)(?: POS/\d+)?)"
-
 	# print(tags)
 
 	# print(rule_for_NP)
