@@ -3,7 +3,7 @@ import numpy as np
 np.random.seed(seed=170299)
 sys.path.append("../")
 import data_handler
-from nltk import word_tokenize, download
+from nltk import word_tokenize
 from nltk.tag.stanford import StanfordPOSTagger
 from os.path import expanduser
 
@@ -357,10 +357,7 @@ if __name__ == "__main__":
 		sentence = preprocess(str(corpus.get_row(index)["input"]))
 		pos_tags = None
 
-		try:
-			pos_tags = pos_tagger(tokenizer(sentence))
-		except LookupError:
-			download("averaged_perceptron_tagger")
+		pos_tags = pos_tagger(tokenizer(sentence))
 
 		pos_tags = noun_chunker(pos_tags)
 
