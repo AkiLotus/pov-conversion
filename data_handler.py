@@ -1,3 +1,5 @@
+import re
+
 class Utilities:
 	def print_row(row, spacing=32):
 		for item in row:
@@ -6,6 +8,31 @@ class Utilities:
 				formatted_item = str(item)[:spacing-5] + "..."
 			print(formatted_item + ' ' * (spacing - len(formatted_item)), end='')
 		print()
+	
+	def extract_tag_from_line(line):
+		line = re.sub(r"^\[(.+)\]$", r"\1", line)
+
+		taglist = []
+		token = ""
+		quotation_mark = None
+		for char in line:
+			if token == "" and char != "(": continue
+			if char == "'" or char == '"':
+				if quotation_mark is None: quotation_mark = char
+				elif quotation_mark == char:
+					quotation_mark = None
+				else:
+					token += char
+				continue
+			token += char
+			if char == ")":
+				token = re.sub(r"^\((.+)\)$", r"\1", token)
+				word, tag = token.split(", ")
+				token = ""
+
+				taglist.append((word, tag))
+
+		return taglist
 
 class Word:
 	def __init__(self, word_string: str):
