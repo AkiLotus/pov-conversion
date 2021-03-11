@@ -26,11 +26,14 @@ class Utilities:
 				continue
 			token += char
 			if char == ")":
-				token = re.sub(r"^\((.+)\)$", r"\1", token)
-				word, tag = token.split(", ")
-				token = ""
+				if quotation_mark is None:
+					token = re.sub(r"^\((.+)\)$", r"\1", token)
+					word, tag = token.split(", ")
+					token = ""
 
-				taglist.append((word, tag))
+					taglist.append((word, tag))
+				else:
+					token += char
 
 		return taglist
 
