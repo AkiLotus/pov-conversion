@@ -14,6 +14,11 @@ text*.txt
 corpus/
 data/
 analyzing_development/
+*/result_analysis.py
+*/analysis*.txt
+*/input*.txt
+*/output*.txt
+*/reference*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
