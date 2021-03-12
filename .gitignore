@@ -10,6 +10,7 @@ models/
 results/
 text*.txt
 *.mdlobj
+.vscode/
 corpus/
 data/
 analyzing_development/
