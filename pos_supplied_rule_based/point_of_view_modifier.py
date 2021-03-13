@@ -139,4 +139,8 @@ def indirect_speech_convert(content_tags, content):
 
 	# if words[-1] == '?': words.pop()
 
+	for index in range(len(words)):
+		if words[index] == "I":
+			words[index] = "i"
+
 	return " ".join(words)

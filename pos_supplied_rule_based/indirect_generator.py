@@ -51,6 +51,7 @@ rules = [
 	sentence_rules.transform_let_know,
 	sentence_rules.transform_indirect_askyn,
 	sentence_rules.transform_direct_askyn,
+	sentence_rules.transform_implicit_askyn,
 	sentence_rules.transform_general,
 ]
 

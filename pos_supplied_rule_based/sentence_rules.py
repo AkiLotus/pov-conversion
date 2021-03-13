@@ -30,8 +30,6 @@ def transform_how_to(verb_begin, content_tags, content):
 
 
 def transform_askwh_with_inversion(verb_begin, content_tags, content):
-	if verb_begin != "ask": return None
-
 	content_tag_string = get_tag_string(content_tags)
 
 	wh_question_regex = r"(^W[A-Z]*?/\d+ (?:NP/\d+ )?V[A-Z]*?/\d+ (?:PRP|NP|RB|FW)/\d+ V[A-Z]*?/\d+)"
@@ -68,12 +66,10 @@ def transform_askwh_with_inversion(verb_begin, content_tags, content):
 	actual_content += content[end_index+1:]
 	actual_content_tags += content_tags[end_index+1:]
 	
-	return generating_materials.random_greetings() + "asks " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
+	return generating_materials.random_greetings() + generating_materials.singular_3rd_person(verb_begin) + " " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
 
 
 def transform_askwh_without_inversion(verb_begin, content_tags, content):
-	if verb_begin != "ask": return None
-
 	content_tag_string = get_tag_string(content_tags)
 
 	wh_question_regex = r"(^W[A-Z]*?/\d+ (?:NP/\d+ )?(?:PRP|NP|RB|FW)/\d+ V[A-Z]*?/\d+)"
@@ -89,7 +85,7 @@ def transform_askwh_without_inversion(verb_begin, content_tags, content):
 	actual_content = content[start_index:]
 	actual_content_tags = content_tags[start_index:]
 	
-	return generating_materials.random_greetings() + "asks " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
+	return generating_materials.random_greetings() + generating_materials.singular_3rd_person(verb_begin) + " " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
 
 
 def transform_ask_for(verb_begin, content_tags, content):
@@ -167,6 +163,8 @@ def transform_indirect_askyn(verb_begin, content_tags, content):
 		actual_content = content[1:]
 		actual_content_tags = content_tags[1:]
 
+		# if verb_begin == "ask":
+		# 	return generating_materials.random_greetings() + "is asking " + content[0] + " " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
 		return generating_materials.random_greetings() + "wants to know " + content[0] + " " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
 	else:
 		return None
@@ -179,9 +177,19 @@ def transform_direct_askyn(verb_begin, content_tags, content):
 		actual_content = content[1:2] + content[0:1] + content[2:]
 		actual_content_tags = content_tags[1:2] + content_tags[0:1] + content_tags[2:]
 
-		return generating_materials.random_greetings() + "wants to know whether " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
+		# if verb_begin == "ask":
+		# 	return generating_materials.random_greetings() + "is asking if " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
+		return generating_materials.random_greetings() + "wants to know if " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
 	else:
 		return None
+
+
+def transform_implicit_askyn(verb_begin, content_tags, content):
+	if verb_begin != "ask": return None
+
+	actual_content, actual_content_tags = content, content_tags
+
+	return generating_materials.random_greetings() + "is asking if " + point_of_view_modifier.indirect_speech_convert(actual_content_tags, actual_content)
 
 
 def transform_general(verb_begin, content_tags, content):

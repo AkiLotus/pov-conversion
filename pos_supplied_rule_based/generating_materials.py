@@ -5,7 +5,9 @@ np.random.seed(170299)
 irregular_verbs = json.loads(open("../resources/english-irregular-verbs.json", "r").read())
 
 auxiliary_verbs = set([
-	"do", "don't", "does", "doesn't", "did", "didn't", "will", "won't", "should", "shouldn't", "shall", "shan't", "can", "can't", "could", "couldn't", 
+	"do", "don't", "does", "doesn't", "did", "didn't", 
+	"will", "won't", "would", "wouldn't", "should", "shouldn't", "shall", "shan't", 
+	"can", "can't", "could", "couldn't", "may", "mayn't", "might", "mightn't", "must", "mustn't", 
 	"am", "is", "isn't", "are", "aren't", "was", "wasn't", "were", "weren't", "has", "hasn't", "have", "haven't", "had", "hadn't"
 ])
 
