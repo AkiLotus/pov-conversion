@@ -18,11 +18,13 @@ analyzing_development/
 */analysis*.txt
 */input*.txt
 */output*.txt
-*/reference*.txt
-*.tsv
-*/input*.txt
-*/output*.txt
 */ans*.txt
+*/reference*.txt
+*/*/input*.txt
+*/*/output*.txt
+*/*/reference*.txt
+*/*/ans*.txt
+*.tsv
 vietnamese_data/*.json
 */sample_data.txt
 
