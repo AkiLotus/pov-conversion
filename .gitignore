@@ -19,6 +19,12 @@ analyzing_development/
 */input*.txt
 */output*.txt
 */reference*.txt
+*.tsv
+*/input*.txt
+*/output*.txt
+*/ans*.txt
+vietnamese_data/*.json
+*/sample_data.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
