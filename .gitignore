@@ -15,7 +15,9 @@ corpus/
 data/
 analyzing_development/
 */result_analysis.py
+*/*/result_analysis.py
 */analysis*.txt
+*/*/analysis*.txt
 */input*.txt
 */output*.txt
 */ans*.txt
@@ -24,6 +26,8 @@ analyzing_development/
 */*/output*.txt
 */*/reference*.txt
 */*/ans*.txt
+*/*/chunked*.txt
+*/*/tagged*.txt
 *.tsv
 vietnamese_data/*.json
 */sample_data.txt
